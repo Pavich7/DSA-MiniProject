@@ -16,11 +16,15 @@ class FacultyLoadSearchEngine:
                 credit = int(row["Credit"].split("(")[0])
                 lecturers = [lec.strip() for lec in row["Lecturer"].split(",")]
 
-                self.courses[course_code] = {
-                    "Name": name,
-                    "Credits": credit,
-                    "Lecturers": lecturers
-                }
+                if course_code in self.courses:
+                    self.courses[course_code]["Lecturers"].extend(lecturers)
+                    self.courses[course_code]["Lecturers"] = list(set(self.courses[course_code]["Lecturers"]))
+                else:
+                    self.courses[course_code] = {
+                        "Name": name,
+                        "Credits": credit,
+                        "Lecturers": lecturers
+                    }
 
                 for lec in lecturers:
                     self.lecturer_load[lec] += credit
