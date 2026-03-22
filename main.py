@@ -1,17 +1,17 @@
 import csv
 from collections import defaultdict
 
-class FacultyLoadSearchEngine:
-    def __init__(self, csv_file):
-        self.courses = {}
-        self.lecturer_load = defaultdict(int)
-        self.load_data(csv_file)
+class FacultyLoadSearchEngine: # Class T(n) = O(n) + O(n^2) + O(1) + O(n) = O(n^2)
+    def __init__(self, csv_file): # T(n) = 3O(n) = O(n)
+        self.courses = {} # O(n)
+        self.lecturer_load = defaultdict(int) # O(n)
+        self.load_data(csv_file) # O(n)
 
-    def load_data(self, csv_file):
-        with open(csv_file, newline='', encoding='utf-8') as f:
-            reader = csv.DictReader(f)
+    def load_data(self, csv_file): # T(n) = O(1) + O(n^2) = O(n^2)
+        with open(csv_file, newline='', encoding='utf-8') as f: # O(1)
+            reader = csv.DictReader(f) # O(1)
             # Read each row into courses dict and count lecturer load.
-            for row in reader:
+            for row in reader: # O(n^2)
                 course_code = row["CourseCode"]
                 name = row["Name"]
                 credit = int(row["Credit"].split("(")[0])
@@ -28,10 +28,10 @@ class FacultyLoadSearchEngine:
                     }
 
                 # Count load for each lecturer here...
-                for lec in lecturers:
+                for lec in lecturers: # O(n)
                     self.lecturer_load[lec] += credit
 
-    def find_course(self, course_code):
+    def find_course(self, course_code): # T(n) = O(1)
         if course_code in self.courses:
             course = self.courses[course_code]
             print(f"Name: {course['Name']}")
@@ -40,12 +40,12 @@ class FacultyLoadSearchEngine:
         else:
             print("Course not found.")
 
-    def report_load(self):
-        for lecturer, total in self.lecturer_load.items():
+    def report_load(self): # T(n) = O(n)
+        for lecturer, total in self.lecturer_load.items(): # O(n)
             print(f"Lecturer: {lecturer} | Total Load: {total} Credits")
 
 if __name__ == "__main__":
-    engine = FacultyLoadSearchEngine("CprE_Subject.csv")
+    engine = FacultyLoadSearchEngine("CprE_Subject.csv") 
     print("Faculty Load & Search Engine")
     print("Type 'find_course <CourseCode>' or 'report_load'. Type 'exit' to quit.")
     # Loop to handle commands.
