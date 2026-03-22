@@ -10,6 +10,7 @@ class FacultyLoadSearchEngine:
     def load_data(self, csv_file):
         with open(csv_file, newline='', encoding='utf-8') as f:
             reader = csv.DictReader(f)
+            # Read each row into courses dict and count lecturer load.
             for row in reader:
                 course_code = row["CourseCode"]
                 name = row["Name"]
@@ -26,6 +27,7 @@ class FacultyLoadSearchEngine:
                         "Lecturers": lecturers
                     }
 
+                # Count load for each lecturer here...
                 for lec in lecturers:
                     self.lecturer_load[lec] += credit
 
@@ -46,6 +48,7 @@ if __name__ == "__main__":
     engine = FacultyLoadSearchEngine("CprE_Subject.csv")
     print("Faculty Load & Search Engine")
     print("Type 'find_course <CourseCode>' or 'report_load'. Type 'exit' to quit.")
+    # Loop to handle commands.
     while True:
         command = input(">> ").strip()
         if command == "exit":
@@ -62,6 +65,6 @@ if __name__ == "__main__":
         else:
             print("Unknown command.")
 
-# Btw, here are what we are using now:
-# We are using hashmap cause it's efficient, O(1)!
-# But we are using built-in dict in Python.
+# What we are using now:
+# We are using built-in dict in Python.
+# Inside it, they are using hashmap, so the time complexity is O(1)!
