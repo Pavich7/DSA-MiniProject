@@ -2,10 +2,10 @@ import csv
 from collections import defaultdict
 
 class FacultyLoadSearchEngine: # Class T(n) = O(n) + O(n^2) + O(1) + O(n) = O(n^2)
-    def __init__(self, csv_file): # T(n) = 3O(n) = O(n)
-        self.courses = {} # O(n)
-        self.lecturer_load = defaultdict(int) # O(n)
-        self.load_data(csv_file) # O(n)
+    def __init__(self, csv_file): # T(n) = 2O(1) + O(n^2) = O(n^2)
+        self.courses = {} # O(1)
+        self.lecturer_load = defaultdict(int) # O(1)
+        self.load_data(csv_file) # O(n^2)
 
     def load_data(self, csv_file): # T(n) = O(1) + O(n^2) = O(n^2)
         with open(csv_file, newline='', encoding='utf-8') as f: # O(1)
@@ -17,7 +17,7 @@ class FacultyLoadSearchEngine: # Class T(n) = O(n) + O(n^2) + O(1) + O(n) = O(n^
                 credit = int(row["Credit"].split("(")[0])
                 lecturers = [lec.strip() for lec in row["Lecturer"].split(",")]
 
-                if course_code in self.courses:
+                if course_code in self.courses: # O(1)
                     self.courses[course_code]["Lecturers"].extend(lecturers)
                     self.courses[course_code]["Lecturers"] = list(set(self.courses[course_code]["Lecturers"]))
                 else:
@@ -32,7 +32,7 @@ class FacultyLoadSearchEngine: # Class T(n) = O(n) + O(n^2) + O(1) + O(n) = O(n^
                     self.lecturer_load[lec] += credit
 
     def find_course(self, course_code): # T(n) = O(1)
-        if course_code in self.courses:
+        if course_code in self.courses: # O(1)
             course = self.courses[course_code]
             print(f"Name: {course['Name']}")
             print(f"Credits: {course['Credits']}")
